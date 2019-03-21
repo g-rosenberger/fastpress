@@ -13,6 +13,12 @@ require_once 'admin/config.php';
 <!doctype html>
 <html lang="en">
   <head>
+  <style>
+  warning { background-color: #ffae42; /* Red */ width: 80%; color: white; font-size: 20px;}
+  success {background-color: #3CB371; width: 80%; color: white; font-size: 20px;}
+  danger {background-color: red; width: 80%; color: white; font-size: 20px;}
+
+  </style>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,33 +41,33 @@ require_once 'admin/config.php';
 
     <header>
       <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">Carousel</a>
+        <a class="navbar-brand">Upload</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="../">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="category_manage.php">Manage Categories</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
+              <a class="nav-link" href="post_manage.php">Manage Posts</a>
             </li>
           </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
         </div>
       </nav>
     </header>
-
   <main class="container">
-
-   <form class="form-group" method="POST" action="" enctype = "multipart/form-data">  
+  <div id="alert"></div>
+  <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Post</h4>
+          </div>
+          <div class="card-body">
+            <form class="form-group" method="POST" action="" enctype = "multipart/form-data">  
      <div class="form-group">
       <label for="exampleFormControlTextarea1">Title</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="title" placeholder="MAXIMUM 30 WORDS" required></textarea>
@@ -71,15 +77,24 @@ require_once 'admin/config.php';
      <label for="exampleFormControlTextarea1">KeyWords</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="keywords" required></textarea>
 <label for="exampleFormControlTextarea1">Category</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="category" placeholder="Category if n sub category separated by /" required></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="category" placeholder="" required></textarea>
     <label for="mytextarea">Text</label>
     <textarea class="form-control" id="mytextarea" rows="3" name="text" placeholder="TEXT"></textarea>
 <br>
- <input type = "file" name = "image" /><br>
-         <input type = "text" name="pImgAlt" placeholder="Little description of the image, (alt attribute)"/><br>
+          </div>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title pricing-card-title">Image<small class="text-muted"></small></h1>
+            <input type = "file" name = "image" /><br>
+         <input type = "text" name="pImgAlt" placeholder="Little description of the image, (alt attribute)"/><br>           
+         <br><button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+
+ 
            
 
-  <button type="submit" class="btn btn-primary">Submit</button>
+
   </div>
    </form>
 
@@ -94,7 +109,7 @@ require_once 'admin/config.php';
   <script src="assets/popper.js"></script>
   <script src="assets/bootstrap.js"></script>
   </body>
-</html>
+
 <?php
 //GATHER DATA FROM THE FORM & NAMING VARIABLES
 $h1 = '<strong><i><h1 class="display-3">'. $_POST["title"] . '</h1></i></strong>';
@@ -119,7 +134,7 @@ $pImgAlt = $_POST["pImgAlt"];
       $file_type = $_FILES['image']['type'];
       $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
       
-      $expensions= array("jpeg","jpg","zip","rar","png","exe","docx","odt","rtf","wav","mp4");
+      $expensions= array("jpeg","jpg","zip","rar","png","exe","docx","odt","rtf","wav","mp4","gif");
       
       if(in_array($file_ext,$expensions)=== false){
          $errors[]="Solo puedes subir archvios .zip, .rar, o .jpeg";
@@ -131,9 +146,9 @@ $pImgAlt = $_POST["pImgAlt"];
       
       if(empty($errors)==true) {
          move_uploaded_file($file_tmp,"p/img/".$file_name);
-         echo "Success";
+         
       }else{
-         print_r($errors);
+         $imgerror = 1;
       }
    }
 $imagename = rawurlencode($file_name);
@@ -174,7 +189,7 @@ $htmlpage = '
 //SEND VALUES TO DB
 if (isset($_POST["title"])) {
 
-$myfile = fopen("p/$filename", "w") or die("Perission Error, on p folder");
+$myfile = fopen("p/$filename", "w") or die("Permission Error, on p folder");
 $txt = $htmlpage;
 fwrite($myfile, $txt);
 fclose($myfile);
@@ -183,13 +198,24 @@ $sql = "INSERT INTO `fp` (`pKeywords`, `pUrl`, `pTitle`, `pSubtitle`, `pDate`, `
 VALUES ('$pKeywords', '$pUrl', '$pTitle', '$pSubtitle', now(), '$pCategory', '$imagename', '$pImgAlt');";
 
 if ($link->query($sql) === TRUE) {
-    echo "New record created successfully";
+    $dberror = 0;
 } else {
     echo "Error: " . $sql . "<br>" . $link->error;
+$dberror = 1;
 }
 
 $link->close();
 
 } else {die();}
  ?>
+ <script>
+ 
+ document.getElementById("alert").innerHTML = "<?php
+ if (isset($_POST["title"])) {if ($dberror == 0 && $imgerror == 0){
+echo '<success>Post created  succesfully</success>';
+} else{ if($imgerror == 1 && $dberror == 0){
+  echo '<warning>Post created  succesfully BUT IMAGE WASNT UPLOADED. Please try a diferent image.</warning> ';} else {echo '<danger>Post was not created due to database errors.<danger>';} } }
+?>";</script> 
+ 
 
+</html>
