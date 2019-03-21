@@ -1,9 +1,9 @@
 <?php
 //DATABASE
 $servername = "localhost";
-$username = "laweb";
-$password = "mateomolaxdd";
-$dbname = "tests";
+$username = "";
+$password = "";
+$dbname = "";
 
 // Create connection
 $link = new mysqli($servername, $username, $password, $dbname);
