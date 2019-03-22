@@ -63,7 +63,7 @@ if (mysqli_num_rows($result) > 0) {
       $pUrl =  $row["pUrl"];
     }
 } else {
-    die("<h1> ERROR post was not found.</h1>");
+   $error++;
 }
 
 
@@ -75,12 +75,14 @@ WHERE ((`pId` = $deleteid))";
 if (mysqli_query($link, $sql)) {
     echo "Record deleted successfully";
 } else {
-    die("Error deleting record: " . mysqli_error($link));
+    $error++;
 }
 $myFile = "$pUrl";
 echo $myFile;
-unlink($myFile) or die("Couldn't delete file");
+unlink($myFile) or $error++;
 mysqli_close($link);
+if(empty($error)){$errormsg = "File deleted successfully";} else {$errormsg = "File could not be deleted, maybe it has already been deleted.";}
+echo '<script>alert("'. $errormsg .'"); window.location = "post_manage.php";</script>';
 }
  ?>
  </div>
