@@ -14,6 +14,7 @@ require_once 'admin/config.php';
 <html lang="en">
   <head>
   <style>
+  /* SET THE COLORS OF THE WARNING MESSAGES */
   warning { background-color: #ffae42; /* Red */ width: 80%; color: white; font-size: 20px;}
   success {background-color: #3CB371; width: 80%; color: white; font-size: 20px;}
   danger {background-color: red; width: 80%; color: white; font-size: 20px;}
@@ -27,11 +28,11 @@ require_once 'admin/config.php';
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap.css">
 
-<script src='https://cloud.tinymce.com/5/tinymce.min.js?apiKey=<?php echo $tinymcekey; ?>'></script>
+<script src='https://cloud.tinymce.com/5/tinymce.min.js?apiKey=<?php echo $tinymcekey; // ENTER THE API KEY OF TINYMCE SET ON THE CONFIG.PHP ?>'></script> 
   <script>
   tinymce.init({
-    selector: '#mytextarea'
-  });
+    selector: '#mytextarea' 
+  }); //Just add tinymce to the text part, to avoid issues with the other parts.
   </script>
 
 
@@ -209,7 +210,7 @@ $link->close();
 } else {die();}
  ?>
  <script>
- 
+ // DEPENDING IF THERE HAS BEEN ERRORS OR NOT, WE WILL DISPLAY AN ERROR MESSAGE, ON THE DIV "ALERT"
  document.getElementById("alert").innerHTML = "<?php
  if (isset($_POST["title"])) {if ($dberror == 0 && $imgerror == 0){
 echo '<success>Post created  succesfully</success>';
