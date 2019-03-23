@@ -81,7 +81,7 @@ $error++;
 $myFile = "$pUrl";
 unlink($myFile) or $error++;
 $myImg = "p/img/$pImgUrl";
-unlink($myImg) or $error++;
+unlink($myImg) or $error = $error;
 mysqli_close($link);
 if(empty($error)){$errormsg = "File deleted successfully";} else {$errormsg = "File could not be deleted, maybe it has already been deleted.";}
 echo '<script>alert("'. $errormsg .'"); window.location = "post_manage.php";</script>';
