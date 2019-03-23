@@ -7,12 +7,12 @@
 <input name="search" class="form-control" type="text" placeholder="Search" aria-label="Search">
 </form>
 <div class="row">
- 
+
 <?php
 
 // Initialize the session
 session_start();
- 
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: admin/login.php?e=403");
@@ -52,37 +52,39 @@ if (mysqli_num_rows($result) > 0) {
 
 
 if (isset($_GET["deleteid"])) {
-    $deleteid = $_GET["deleteid"];
-    require_once 'admin/config.php';
+$deleteid = $_GET["deleteid"];
+require_once 'admin/config.php';
 $sql = "SELECT * FROM `fp` WHERE (`pId` = $deleteid)";
 $result = mysqli_query($link, $sql);
 
 if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
-      $pUrl =  $row["pUrl"];
-    }
+// output data of each row
+while($row = mysqli_fetch_assoc($result)) {
+$pUrl =  $row["pUrl"];
+$pImgUrl = $row["pImgUrl"];
+}
 } else {
-   $error++;
+$error++;
 }
 
 
 
 
-	require_once 'admin/config.php';
-	$sql = "DELETE FROM `fp`
+require_once 'admin/config.php';
+$sql = "DELETE FROM `fp`
 WHERE ((`pId` = $deleteid))";
 if (mysqli_query($link, $sql)) {
-    echo "Record deleted successfully";
+echo "Record deleted successfully";
 } else {
-    $error++;
+$error++;
 }
 $myFile = "$pUrl";
-echo $myFile;
 unlink($myFile) or $error++;
+$myImg = "p/img/$pImgUrl";
+unlink($myImg) or $error++;
 mysqli_close($link);
 if(empty($error)){$errormsg = "File deleted successfully";} else {$errormsg = "File could not be deleted, maybe it has already been deleted.";}
 echo '<script>alert("'. $errormsg .'"); window.location = "post_manage.php";</script>';
 }
- ?>
- </div>
+?>
+</div>
