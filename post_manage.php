@@ -37,8 +37,8 @@ if (mysqli_num_rows($result) > 0) {
     if (empty($row["pImgUrl"])) {
        $pImgUrl = "noimg.png";
      } else {$pImgUrl = $row["pImgUrl"];}
-        echo '<div class="col-sm-6"><div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="../p/img/'. $pImgUrl .'" alt="Card image cap">
+        echo '<div class="col-md-2 col-md-offset-5"><div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="p/img/'. $pImgUrl .'" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">' . $row["pTitle"] . '</h5>
     <p class="card-text">'. $row["pSubtitle"] .'</p>
