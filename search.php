@@ -24,12 +24,10 @@
                     </div>
 <?php
 if(isset($_GET["search"])) {
-//<Remove "" to protect from SQL injections>
-$query = $_GET["search"];
-$query = str_replace("'", "", $query);
-$query = str_replace('"', "", $query);
+//<Remove characters to protect from SQL injections>
+$searchVal = array("/", '"', "'","-",';','=');  
+$query = str_replace($searchVal, "", $_GET["search"]); 
 //</>
-echo $query;
 require_once 'admin/config.php';
 $sql = "SELECT * FROM `fp` WHERE (`pImgUrl` LIKE '%$query%' OR `pKeywords` LIKE '%$query%' OR `pUrl` LIKE '%$query%' OR `pTitle` LIKE '%$query%' OR `pSubtitle` LIKE '%$query%' OR `pDate` LIKE '%$query%' OR `pCategory` LIKE '%$query%') LIMIT 50";
 $result = mysqli_query($link, $sql);
@@ -38,7 +36,7 @@ if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
         echo '
- <div class="col-md-6" id="' . $a . '">
+<div class="col-md-6" id="' . $a . '">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
           <strong class="d-inline-block mb-2 text-primary">' . $row["pCategory"] . '</strong>

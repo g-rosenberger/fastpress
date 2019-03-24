@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="assets/bootstrap.css">
     <link rel="stylesheet" href="assets/home.css">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <meta name="description" content="<?php echo $wDescription; ?>" />
 <meta property="og:title" content="<?php echo $wName; ?>">
