@@ -54,7 +54,7 @@ if ($result->num_rows > 0) {
  <div class="col-md-6" id="' . $a . '">
       <div class="card flex-md-row mb-4 shadow-sm h-md-250">
         <div class="card-body d-flex flex-column align-items-start">
-          <strong class="d-inline-block mb-2 text-primary">' . $row["pCategory"] . '</strong>
+          <strong class="d-inline-block mb-2 text-primary"><a href="category.php?category=' . $row["pCategory"] . '">' . $row["pCategory"] . '</a></strong>
           <h3 class="mb-0">
             <a class="text-dark" href="' . $row["pUrl"] . '">' . $row["pTitle"] .'</a>
           </h3>

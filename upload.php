@@ -1,4 +1,6 @@
 <?php 
+//TODO: HEM DE FER QUE LA CATEGORY ES MOSTRI EN EL HTML CREAT, FER UN CATEGORIES PHP PUBLIC Y Q ES LINKEJI ENTRE SI.
+//FIXME: FER ALGUNES DE AQUESTES PETICIONS SQL AMB FUNCTIONS
 // Initialize the session
 session_start();
  
@@ -11,7 +13,7 @@ $f_username = $_SESSION["username"];
 require_once 'admin/config.php';
 ?>
 <!doctype html>
-<html lang="en">
+<html lang="en">    
   <head>
   <style>
   /* SET THE COLORS OF THE WARNING MESSAGES */
@@ -52,7 +54,7 @@ require_once 'admin/config.php';
               <a class="nav-link" href="../">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="category_manage.php">Manage Categories</a>
+              <a class="nav-link" href="admin/category_manage.php">Manage Categories</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="post_manage.php">Manage Posts</a>
@@ -78,7 +80,26 @@ require_once 'admin/config.php';
      <label for="exampleFormControlTextarea1">KeyWords</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="keywords" required></textarea>
 <label for="exampleFormControlTextarea1">Category</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="category" placeholder="" required></textarea>
+    
+<select name="category">
+<?php 
+require_once 'admin/config.php';
+$sql = "SELECT * FROM `cat`";
+$result = mysqli_query($link, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while($row = mysqli_fetch_assoc($result)) {
+        echo '<option value="' . $row["catName"] . '">' . $row["catName"] . '</option>';
+    }
+} else {
+    echo "0 results";
+}
+
+?>
+  </select> <br>
+
+
     <label for="mytextarea">Text</label>
     <textarea class="form-control" id="mytextarea" rows="3" name="text" placeholder="TEXT"></textarea>
 <br>
@@ -175,7 +196,7 @@ $htmlpage = '
   <body> ' . "
 <?php require_once('../header.php'); ?> " . '
 
-<main class="container lead my-3"><div class="jumbotron">' . $h1 . $h2 . '<p><i>Date:' . $date . '</i></p><img class="img-fluid"  style="width: 100%; display: block;"  src="img/' . $imagename . '"></img></div>' . $p . '</main> ' . "
+<main class="container lead my-3"><div class="jumbotron">' . $h1 . $h2 . '<p><i>Date:' . $date . '</i><strong> Category: <a href="../category.php?category=' . $pCategory . '">' . $pCategory . '</a></strong></p><img class="img-fluid"  style="width: 100%; display: block;"  src="img/' . $imagename . '"></img></div>' . $p . '</main> ' . "
 <?php require_once('../similar.php'); ?>
 <?php require_once('../footer.php'); ?> " . '
   <script src="../assets/jquery.js"></script>
