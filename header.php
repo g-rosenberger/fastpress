@@ -16,7 +16,7 @@ require_once 'admin/config.php';
             <a class="nav-link" href="../">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../categories.php">Categories</a>
+            <a class="nav-link" href="../category.php">Categories</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
